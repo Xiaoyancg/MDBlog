@@ -1,7 +1,12 @@
 const http = require("http");
+const Markdown = require("markdown-to-html/lib/markdown");
 
 const hostname = "127.0.0.1";
 const port = 3000;
+
+var markdown = require("markdown-to-html").Markdown;
+var md = new Markdown();
+
 
 const requestListener = function(req, res) {
     req.statusCode = 200;

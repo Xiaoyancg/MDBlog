@@ -15,10 +15,11 @@ const port = 3000;
 
 app.get("/", function(req, res) {
     dr(req.hostname);
-    res.sendFile(__dirname + "doc/" + "index.html");
+    res.sendFile(__dirname + "/doc/" + "index.html");
 });
 
 app.listen(port, hostname, function(){
     dr(`Server is listening at ${hostname}:${port}.`);
+
 })
 

@@ -12,11 +12,16 @@ const port = 3000;
 //const Markdown = require("markdown-to-html/lib/markdown");
 //var markdown = require("markdown-to-html").Markdown;
 //var md = new Markdown();
-
+app.get("*.css", (req,res)=>{
+    dr(req.path);
+    res.sendFile(__dirname + "/doc" + req.path);
+})
 app.get("/", function(req, res) {
     dr(req.hostname);
-    res.sendFile(__dirname + "/doc/" + "index.html");
+    res.sendFile(__dirname + "/doc" + "/index.html");
 });
+
+
 
 app.listen(port, hostname, function(){
     dr(`Server is listening at ${hostname}:${port}.`);

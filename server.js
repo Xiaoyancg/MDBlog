@@ -49,7 +49,7 @@ var indexBody = `
         <h1 class="title">Real Code CG</span>
     </div>
     <div class="indexDiv">
-        <span>about</span>
+        <span>main page, keywords, search by keywords</span>
     </div>
     <div class="contentDiv">
         <div class="article">
@@ -67,15 +67,27 @@ const express = require("express")
 const app = express();
 const path = require("path")
 
-const creater = require("create-html")
+const creater = require("create-html");
+var toString = require('stream-to-string');
+const Markdown = require("markdown-to-html").Markdown;
+const jsonfile = require("jsonfile");
+var fs = require("fs");
 
-var toString = require('stream-to-string')
+var indexArti = {};
+jsonfile.readFile("indexArti.json",(err, obj)=>{
+    if (err) {
+        console.log("empty article index.");
+    }
+    else {
+        indexArti = obj;
+    }
+})
 
+console.log(indexArti);
 const hostname = "127.0.0.1";
 const port = 3000;
 
 
-const Markdown = require("markdown-to-html").Markdown;
 var arti=[];
 var md = new Markdown();
 var testfile = "articles/test.md";
@@ -85,14 +97,13 @@ md.render(testfile,opts,(err)=>{
         console.error(">>>" + err);
         //process.exit();
     }
-    md.pipe(process.stdout);
+    //md.pipe(process.stdout);
     toString(md, (err,msg) => {
         //console.log(msg);
         arti=msg;
     });
 });
 
-console.log(arti);
 
 app.get("*.css", (req,res)=>{
     // dr(req.path);

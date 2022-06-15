@@ -1,5 +1,31 @@
 body {
-    background-color: rgba(68,68,68);
-    color: rgba(237,237,237);
+    background-color: #10151b;
+    color: rgb(237,237,237);
     z-index: -10;
+    align-items: center;
+}
+
+.bodyDiv {
+    background-color: #18222f;
+    border:0px;
+    width: 964px;
+    height: 1000px;
+    padding: 0px;
+    margin:auto;
+    align-items: center;
+}
+.titleDiv {
+    margin:auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #151920;
+    color:rgb(237, 237, 237);
+    font-family: "Lucida Console", "Courier New", monospace;
+    align-items: center;
+    text-align: center;
+}
+
+h1 {
+    font-size: 100px;
+    margin:0px;
 }

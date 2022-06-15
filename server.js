@@ -61,7 +61,8 @@ var indexBody = `
 
 
 const debug = require("debug");
-const dr = debug("server")
+const ds = debug("server");
+const dj = debug("json");
 
 const express = require("express")
 const app = express();
@@ -76,16 +77,26 @@ var fs = require("fs");
 var indexArti = {};
 jsonfile.readFile("indexArti.json",(err, obj)=>{
     if (err) {
-        console.log("empty article index.");
+        console.log("auto created empty article index.");
+        indexArti["test"] = "test1";
+        dj(indexArti);        
     }
     else {
         indexArti = obj;
     }
 })
 
+function autoSaveIndex() {
+    jsonfile.writeFile("indexArti.json", indexArti);
+    setTimeout(autoSaveIndex,3600000);
+}
+autoSaveIndex();
 console.log(indexArti);
+
 const hostname = "127.0.0.1";
 const port = 3000;
+
+dj("???")
 
 
 var arti=[];
@@ -106,7 +117,7 @@ md.render(testfile,opts,(err)=>{
 
 
 app.get("*.css", (req,res)=>{
-    // dr(req.path);
+    // ds(req.path);
     // res.sendFile(__dirname + "/doc" + req.path);
 })
 
@@ -121,14 +132,14 @@ app.get("/", function(req, res) {
         head: indexHead+indexCss,
         body:indexBody,
     }))
-    // dr(req.hostname);
+    // ds(req.hostname);
     // res.sendFile(__dirname + "/doc" + "/index.html");
 });
 
 
 
 app.listen(port, hostname, function(){
-    dr(`Server is listening at ${hostname}:${port}.`);
+    ds(`Server is listening at ${hostname}:${port}.`);
 
 })
 

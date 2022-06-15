@@ -8,10 +8,12 @@
 ✔ add md to html lib @done(22-06-15 13:45)
 
 create two-way keyword index:
-    ☐ test @started(22-06-15 13:47)
-    ☐ on time save
-    ☐ test read
-    ☐ test write
+    ✔ test @started(22-06-15 13:47) @done(22-06-15 13:51) @lasted(4m35s)
+    ✔ on time save @started(22-06-15 13:51) @done(22-06-15 13:55) @lasted(4m25s)
+    ☐ test read @started(22-06-15 13:55)
+    ☐ test write @started(22-06-15 13:55)
+    ☐ create keyword index file
+    ☐ create article index file
 
 create main page:
     ☐ write html

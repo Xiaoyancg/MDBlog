@@ -1,21 +1,7 @@
-const debug = require("debug");
-const dr = debug("server")
-
-const express = require("express")
-const app = express();
-const path = require("path")
-
-const creater = require("create-html")
-
-const hostname = "127.0.0.1";
-const port = 3000;
-
-//const Markdown = require("markdown-to-html/lib/markdown");
-//var markdown = require("markdown-to-html").Markdown;
-//var md = new Markdown();
-
 var indexHead = `
-<meta charset="utf-8" name="viewport" content="width=device-width.initial-scale=1.0*">
+<meta charset="utf-8" name="viewport" content="width=device-width.initial-scale=1.0*">`;
+
+var indexCss = `
 <style>
 body {
     background-color: #10151b;
@@ -44,6 +30,11 @@ body {
     text-align: center;
 }
 
+.indexDiv {
+    text-align: center;
+    align-items: center;
+}
+
 h1 {
     font-size: 100px;
     margin:0px;
@@ -51,19 +42,57 @@ h1 {
 </style>`;
 
 var indexTitle = `<title>realcodecg</title>`;
-var indexCss = `main.css`;
 var indexLang = `en`;
 var indexBody = `
 <div class="bodyDiv">
     <div class="titleDiv">
         <h1 class="title">Real Code CG</span>
     </div>
-    <div class="index">
+    <div class="indexDiv">
         <span>about</span>
+    </div>
+    <div class="contentDiv">
+        <div class="article">
+            <span>test</span>
+        </div>
     </div>
 </div>`;
 
 
+
+const debug = require("debug");
+const dr = debug("server")
+
+const express = require("express")
+const app = express();
+const path = require("path")
+
+const creater = require("create-html")
+
+var toString = require('stream-to-string')
+
+const hostname = "127.0.0.1";
+const port = 3000;
+
+
+const Markdown = require("markdown-to-html").Markdown;
+var arti=[];
+var md = new Markdown();
+var testfile = "articles/test.md";
+var opts ={title:"test title"};
+md.render(testfile,opts,(err)=>{
+    if(err){
+        console.error(">>>" + err);
+        //process.exit();
+    }
+    md.pipe(process.stdout);
+    toString(md, (err,msg) => {
+        //console.log(msg);
+        arti=msg;
+    });
+});
+
+console.log(arti);
 
 app.get("*.css", (req,res)=>{
     // dr(req.path);
@@ -78,7 +107,7 @@ app.get("/", function(req, res) {
     res.send(creater({
         title:indexTitle,
         lang: indexLang,
-        head: indexHead,
+        head: indexHead+indexCss,
         body:indexBody,
     }))
     // dr(req.hostname);

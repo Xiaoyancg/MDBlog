@@ -32,8 +32,10 @@ local server:
         ☐ key page @started(22-06-16 16:46)
     key pages:
         ✔ design @done(22-06-16 16:46)
-        ☐ test framework @started(22-06-16 16:46)
-        ☐ dumb html
+        ✔ test framework @started(22-06-16 16:46) @done(22-06-16 17:31) @lasted(45m59s)
+        ✔ dumb html @done(22-06-16 17:31)
+        ☐ add key page css @started(22-06-16 17:32)
+        ☐ add key search page css
     link and route:
         ✔ test links @done(22-06-16 14:25)
         ☐ add links @started(22-06-16 13:56)

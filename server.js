@@ -2,7 +2,7 @@ var mainHead = `
 <meta charset="utf-8" name="viewport" content="width=device-width.initial-scale=1.0*">
 `;
 
-var mainCss = `
+var mainCSS = `
 <style>
 body {
     background-color: #10151b;
@@ -40,8 +40,6 @@ body {
     text-align: center;
     align-items: center;
 }
-
-
 </style>
 `;
 
@@ -59,6 +57,8 @@ var mainBodyUpper = `
 var mainBodyLower =`
 </div>`;
 
+
+// index page
 var indexTitle = `Real Code CG Coding Blog`;
 var indexBodyUpper = `
     <div class="indexDiv">
@@ -68,7 +68,7 @@ var indexBodyLower = `
     </div>
 `;
 
-
+// article page
 var artiTitle = indexTitle;
 var artiBodyUpper = `
     <div class="articleDiv>
@@ -77,8 +77,28 @@ var artiBodyLower = `
     </div>
 `;
 
-
+// key page
 var keyTitle = indexTitle + `: key search`;
+var keyCSS = `
+<style>
+.keyDiv {
+    width:90%;
+}
+.keyTable{
+    width:100%;
+    border = 1px solid;
+}
+.keyRight {
+    width:50%;
+}
+.keyLeft {
+    width:50%;
+}
+.keySearchDiv {
+    width: 100%;
+}
+</style>
+`;
 var keyBodyUpper = `
     <div class="keyDiv">
         <table class="keyTable">
@@ -91,7 +111,18 @@ var keyBodyLower = `
     </div>
 `;
 
+// key search page
 var keySearchTitle = "keysearch";
+var keySearchCSS = `
+<style>
+body {
+    background-color: #10151b;
+    color: rgb(237,237,237);
+    z-index: -10;
+    align-items: center;
+}
+</style>
+`;
 var keySearchBodyUpper = ``;
 var keySearchBody = `teststeasafsdfas`;
 var keySearchBodyLower = ``;
@@ -169,7 +200,7 @@ jsonfile.readFile("keyIndex.json")
         keyBody += `</div></td>`;
         // add right column
         keyBody += `<td class="keyRight"><div class="keySearchDiv">\n`;
-        keyBody += `<iframe src="/keysearch?" title="keysearch">iframe<iframe>`
+        keyBody += `<iframe src="/keysearch?" title="keysearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
         keyBody += `</div></td>`
         dj("key index read");
     })
@@ -281,7 +312,7 @@ app.get("/article/*", (req,res)=>{
         res.send(HTMLCreater({
             title: artiTitle + ": " + artiName,
             lang: mainLang,
-            head: mainHead + mainCss,
+            head: mainHead + mainCSS,
             body: mainBodyUpper + artiBodyUpper + artiBody + artiBodyLower + mainBodyLower
         }))
     })
@@ -295,7 +326,7 @@ app.get("/keywords", (req,res)=>{
     res.send(HTMLCreater({
         title: keyTitle,
         lang: mainLang,
-        head: mainHead + mainCss,
+        head: mainHead + mainCSS + keyCSS,
         body: mainBodyUpper + keyBodyUpper + keyBody + keyBodyLower + mainBodyLower
     }))
 })
@@ -304,7 +335,7 @@ app.get("/keysearch*", (req,res)=>{
     res.send(HTMLCreater({
         title: keySearchTitle,
         lang: mainLang,
-        head: mainHead,
+        head: mainHead + keySearchCSS,
         body: keySearchBodyUpper + keySearchBody + keySearchBodyLower
     }))
 })
@@ -313,7 +344,7 @@ app.get("/", function(req, res) {
     res.send(HTMLCreater({
         title:indexTitle,
         lang: mainLang,
-        head: mainHead+mainCss,
+        head: mainHead+mainCSS,
         body: mainBodyUpper + indexBodyUpper + indexBody + indexBodyLower + mainBodyLower
     }))
     // ds(req.hostname);

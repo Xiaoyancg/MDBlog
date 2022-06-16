@@ -1,0 +1,38 @@
+{
+    "name": "indexArti",
+    "location": "./indexArti.json",
+    "data": {
+        "articles": {
+            "test": {
+                "name": "test",
+                "keywords": [
+                    "test"
+                ],
+                "filename": "test.md",
+                "upload": "2022/06/15 23:30:10:100 UTC-4",
+                "change": "2022/06/16 04:49:46:677 UTC-4"
+            },
+            "test2": {
+                "name": "test2",
+                "keywords": [
+                    "test",
+                    "test2"
+                ],
+                "filename": "test2.md",
+                "upload": "2022/06/15 23:30:10:100 UTC-4",
+                "change": "2022/06/16 04:49:46:678 UTC-4"
+            }
+        },
+        "numArticles": 2,
+        "orderList": [
+            {
+                "order": 1,
+                "name": "test"
+            },
+            {
+                "order": 2,
+                "name": "test2"
+            }
+        ]
+    }
+}

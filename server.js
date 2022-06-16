@@ -1,5 +1,6 @@
 var indexHead = `
-<meta charset="utf-8" name="viewport" content="width=device-width.initial-scale=1.0*">`;
+<meta charset="utf-8" name="viewport" content="width=device-width.initial-scale=1.0*">
+`;
 
 var indexCss = `
 <style>
@@ -30,45 +31,59 @@ body {
     text-align: center;
 }
 
-.indexDiv {
+.menuBarDiv {
     text-align: center;
     align-items: center;
 }
 
-h1 {
+#realcodecg {
     font-size: 100px;
     margin:0px;
 }
-</style>`;
+</style>
+`;
 
-var indexTitle = `<title>realcodecg</title>`;
+var indexTitle = `<title>real code cg</title>
+`;
 var indexLang = `en`;
-var indexBody = `
+var bodyHead = `
 <div class="bodyDiv">
     <div class="titleDiv">
-        <h1 class="title">Real Code CG</span>
+        <h1 class="title" id="realcodecg">Real Code CG</span>
     </div>
-    <div class="indexDiv">
+    <div class="menuBarDiv">
         <span>main page, keywords, search by keywords</span>
     </div>
-    <div class="contentDiv">
-        <div class="article">
-            <span>test</span>
-        </div>
-    </div>
+`;
+
+var bodyEnd =`
 </div>`;
 
+var indexBodyUpper = `
+    <div class="indexDiv">
+`;
+var indexBody = ``;
+var indexBodyLower = `
+    </div>
+`;
 
+var artiBodyUpper = `
+    <div class="articleDiv>
+`;
+var artiBodyLower = `
+    </div>
+`;
 
 const debug = require("debug");
 const ds = debug("server"); // debug server
 const dj = debug("json"); // debug json
+const dm = debug("markdown"); // debug markdown
 
 const express = require("express")
 const app = express();
 const path = require("path")
 
-const creater = require("create-html");
+const HTMLCreater = require("create-html");
 var toString = require('stream-to-string');
 const Markdown = require("markdown-to-html").Markdown;
 const jsonfile = require("jsonfile");
@@ -88,27 +103,37 @@ function autoSaveIndex() {
 
 var indexArtiJSON = {};
 var indexArti = {};
-var articles = {};
-
 
 jsonfile.readFile("indexArti.json")
     .then(obj =>{
         indexArtiJSON = obj;
         indexArti = indexArtiJSON["data"];
         dj("exist",indexArti)
-        dj("test article: ", indexArti["articles"][indexArti["numArticles"]-1]);
+        //dj("test article: ", indexArti["articles"][indexArti["numArticles"]-1]);
+        orderList = indexArti["orderList"];
+        indexArti["orderList"].forEach(element => {
+            indexBody += "<span>" + indexArti["articles"][element["name"]]["name"] +" keywords: " + indexArti["articles"][element["name"]]["keywords"] + "</span><br>\n";
+        });
+        indexBody += indexBodyLower;
+        articles = indexArti["articles"];
     })
     .catch(err => {
         if (err) {
             dj("catch:",err)
             console.log("auto created empty article index.");
             // test test.md
-            testArti = {"name": "test", "keyword": "test", "filename":"test.md", "upload":"2022/06/15 23:30:10:100 UTC-4", "change":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")}
-            indexArti["articles"] = [testArti];
-            indexArti["numArticles"] = 1;
+            testArti = {"name": "test", "keywords": ["test"], "filename":"test.md", "upload":"2022/06/15 23:30:10:100 UTC-4", "change":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")};
+            var testArti2 = {"name": "test2", "keywords": ["test","test2"], "filename":"test2.md", "upload":"2022/06/15 23:30:10:100 UTC-4", "change":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")}
+            indexArti["articles"] = {};
+            indexArti["articles"]["test"]=testArti;
+            indexArti["articles"]["test2"]=testArti2;
+            indexArti["numArticles"] = 2;
+            indexArti["orderList"] = [];
+            indexArti["orderList"].push({"order":1, "name":"test"});
+            indexArti["orderList"].push({"order":2, "name":"test2"});
             indexArtiJSON = {
                 "name":"indexArti",
-                "location": "./indexArti",
+                "location": "./indexArti.json",
                 "data": indexArti
             }
             dj(indexArtiJSON);
@@ -122,44 +147,35 @@ const hostname = "127.0.0.1";
 const port = 3000;
 
 
-// test markdown
-var arti=[];
-var md = new Markdown();
-var testfile = "articles/test.md";
-var opts ={title:"test title"};
-md.render(testfile,opts,(err)=>{
-    if(err){
-        console.error(">>>" + err);
-        //process.exit();
-    }
-    //md.pipe(process.stdout);
-    toString(md, (err,msg) => {
-        //console.log(msg);
-        arti=msg;
-    });
+
+
+app.get("/article/*", (req,res)=>{
+    artiName = req.path.split("/")[2];
+    dm(artiName);
+    if (articles[artiName] == undefined) {res.send("404");}
+    arti = articles[artiName];
+
+
+    res.send(HTMLCreater({
+        title: artiName,
+        lang:indexLang,
+        head: indexHead + indexCss,
+        body: bodyHead + artiBodyUpper + artiBody + artiBodyLower + bodyEnd
+    }))
 });
 
-
-app.get("*.css", (req,res)=>{
-    // ds(req.path);
-    // res.sendFile(__dirname + "/doc" + req.path);
-})
-
-app.get("/about/", (req, res)=>{
-    res.send(cr)
-})
-
 app.get("/", function(req, res) {
-    res.send(creater({
+    res.send(HTMLCreater({
         title:indexTitle,
         lang: indexLang,
         head: indexHead+indexCss,
-        body:indexBody,
+        body: bodyHead + indexBodyUpper + indexBody + indexBodyLower + bodyEnd
     }))
     // ds(req.hostname);
     // res.sendFile(__dirname + "/doc" + "/index.html");
 });
 
+app.get("*", (req,res)=>{res.send("404");});
 
 
 app.listen(port, hostname, function(){

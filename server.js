@@ -93,6 +93,12 @@ const fs = require("fs");
 const util = require("util");
 const timestamp = require('time-stamp');
 
+var indexArtiJSON = {};
+var indexArti = {};
+
+var indexKey = {};
+var indexKeyJSON = {};
+
 // auto save
 function autoSaveIndex() {
     dj("save")
@@ -104,26 +110,49 @@ function autoSaveIndex() {
     setTimeout(autoSaveIndex,3600000);
 }
 
-var indexArtiJSON = {};
-var indexArti = {};
+function autoSaveKey() {
+    dj("save key")
+    jsonfile.writeFile("indexKey.json", indexKeyJSON, {spaces:4}, (err)=>{
+        if(err) {
+            dj("auto save key:", err);
+        }
+    });
+    setTimeout(autoSaveKey, 3600000);
+}
 
-var indexKey = {};
-var indexKeyJSON = {};
 
 jsonfile.readFile("indexKey.json")
     .then(obj => {
         dj("key index exist");
+
     })
     .catch(err => {
         if (err) {
             dj("catch", err)
-
+            indexKey = {
+                "keys": {
+                    "test": ["test","test2"],
+                    "test2": ["test2"]
+                },
+                "numKeys":2,
+                "orderList":[
+                    {
+                        "kid":1,
+                        "kname":"test"
+                    },
+                    {
+                        "kid":2,
+                        "kname":"test2"
+                    }
+                ]
+            }
             indexKeyJSON = {
                 "name": "indexKey",
                 "location": "./indexKeyJSON",
                 "data":indexKey,
                 "lastModifiedTime":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")
             }
+            autoSaveKey();
         }
     })
 
@@ -138,7 +167,7 @@ jsonfile.readFile("indexArti.json")
         //dj("orderList", orderList)
         orderList.forEach(element => {
             //dj("element", articles[element["name"]])
-            indexBody += "<p><a href=\"/article/" + element["name"] + "\">" + indexArti["articles"][element["name"]]["name"] +"</a><br><span>keywords: " + indexArti["articles"][element["name"]]["keywords"] + "</span></p>";
+            indexBody += "<p><a href=\"/article/" + element["aname"] + "\">" + indexArti["articles"][element["aname"]]["name"] +"</a><br><span>keywords: " + indexArti["articles"][element["aname"]]["keywords"] + "</span></p>";
         });
         indexBody += indexBodyLower;
         
@@ -146,7 +175,6 @@ jsonfile.readFile("indexArti.json")
     .catch(err => {
         if (err) {
             dj("catch:",err)
-            console.log("auto created empty article index.");
             // test test.md
             testArti = {"name": "test", "keywords": ["test"], "filename":"test.md", "upload":"2022/06/15 23:30:10:100 UTC-4", "change":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")};
             var testArti2 = {"name": "test2", "keywords": ["test","test2"], "filename":"test2.md", "upload":"2022/06/15 23:30:10:100 UTC-4", "change":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")}
@@ -155,15 +183,15 @@ jsonfile.readFile("indexArti.json")
             indexArti["articles"]["test2"]=testArti2;
             indexArti["numArticles"] = 2;
             indexArti["orderList"] = [];
-            indexArti["orderList"].push({"id":1, "name":"test"});
-            indexArti["orderList"].push({"id":2, "name":"test2"});
+            indexArti["orderList"].push({"aid":1, "aname":"test"});
+            indexArti["orderList"].push({"aid":2, "aname":"test2"});
             indexArtiJSON = {
                 "name":"indexArti",
                 "location": "./indexArti.json",
                 "data": indexArti,
                 "lastModifiedTime":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")
             }
-            dj(indexArtiJSON);
+            dj("init test indexArti");
             autoSaveIndex();
         }
     })

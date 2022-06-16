@@ -1,0 +1,27 @@
+{
+    "name": "indexKey",
+    "location": "./indexKeyJSON",
+    "data": {
+        "keys": {
+            "test": [
+                "test",
+                "test2"
+            ],
+            "test2": [
+                "test2"
+            ]
+        },
+        "numKeys": 2,
+        "orderList": [
+            {
+                "kid": 1,
+                "kname": "test"
+            },
+            {
+                "kid": 2,
+                "kname": "test2"
+            }
+        ]
+    },
+    "lastModifiedTime": "2022/06/16 14:31:48:422 UTC-4"
+}

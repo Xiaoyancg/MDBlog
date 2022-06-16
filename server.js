@@ -77,37 +77,43 @@ var fs = require("fs");
 // auto save
 function autoSaveIndex() {
     dj("save")
-    jsonfile.writeFile("indexArti.json", indexArtiJSON);
+    jsonfile.writeFile("indexArti.json", indexArtiJSON, {spaces:4}, (err)=>{
+        if(err){
+            dj("autoSaveIndex: ",err);
+        }
+    });
     setTimeout(autoSaveIndex,3600000);
 }
 
 var indexArtiJSON = {};
 var indexArti = {};
+var articles = {};
 
 
-/*
-* decision notice
-* articles is an array of json obj.
-*/
-jsonfile.readFile("indexArti.json",(err, obj)=>{
-    if (err) {
-        console.log("auto created empty article index.");
-        indexArti["articles"] = [];
-        indexArti["numArticles"] = 0;
-        indexArtiJSON = {
-            "name":"indexArti",
-            "location": "./indexArti",
-            "data": indexArti
-        }
-        dj(indexArtiJSON);
-    }
-    else {
+jsonfile.readFile("indexArti.json")
+    .then(obj =>{
         indexArtiJSON = obj;
-
+        indexArti = indexArtiJSON["data"];
         dj("exist",indexArti)
-    }
-    autoSaveIndex();
-})
+        dj("test article: ", indexArti["articles"][indexArti["numArticles"]-1]);
+    })
+    .catch(err => {
+        if (err) {
+            dj("catch:",err)
+            console.log("auto created empty article index.");
+            // test test.md
+            testArti = {"name": "test", "keyword": "test"}
+            indexArti["articles"] = [testArti];
+            indexArti["numArticles"] = 1;
+            indexArtiJSON = {
+                "name":"indexArti",
+                "location": "./indexArti",
+                "data": indexArti
+            }
+            dj(indexArtiJSON);
+            autoSaveIndex();
+        }
+    })
 
 
 
@@ -115,7 +121,7 @@ const hostname = "127.0.0.1";
 const port = 3000;
 
 
-
+// test markdown
 var arti=[];
 var md = new Markdown();
 var testfile = "articles/test.md";

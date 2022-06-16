@@ -1,0 +1,13 @@
+{
+    "name": "indexArti",
+    "location": "./indexArti",
+    "data": {
+        "articles": [
+            {
+                "name": "test",
+                "keyword": "test"
+            }
+        ],
+        "numArticles": 1
+    }
+}

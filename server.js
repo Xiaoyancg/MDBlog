@@ -84,10 +84,12 @@ const app = express();
 const path = require("path")
 
 const HTMLCreater = require("create-html");
-var toString = require('stream-to-string');
-const Markdown = require("markdown-to-html").Markdown;
+var showdown  = require('showdown');
+var converter = new showdown.Converter();
+
 const jsonfile = require("jsonfile");
-var fs = require("fs");
+const fs = require("fs");
+const util = require("util");
 const timestamp = require('time-stamp');
 
 // auto save
@@ -148,20 +150,28 @@ const port = 3000;
 
 
 
-
 app.get("/article/*", (req,res)=>{
     artiName = req.path.split("/")[2];
-    dm(artiName);
+    dm("name",artiName);
     if (articles[artiName] == undefined) {res.send("404");}
     arti = articles[artiName];
+    var artiBody = "";
+    var artiPath = __dirname+"\\articles\\"+artiName+".md";
+    dm("path: ", artiPath);
+    fs.promises.readFile(artiPath)
+    .then((data)=>{
+        artiBody = converter.makeHtml(""+data);
+        res.send(HTMLCreater({
+            title: artiName,
+            lang:indexLang,
+            head: indexHead + indexCss,
+            body: bodyHead + artiBodyUpper + artiBody + artiBodyLower + bodyEnd
+        }))
+    })
+    .catch((err)=>{
+        dm(err);
+    })
 
-
-    res.send(HTMLCreater({
-        title: artiName,
-        lang:indexLang,
-        head: indexHead + indexCss,
-        body: bodyHead + artiBodyUpper + artiBody + artiBodyLower + bodyEnd
-    }))
 });
 
 app.get("/", function(req, res) {

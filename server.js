@@ -61,8 +61,8 @@ var indexBody = `
 
 
 const debug = require("debug");
-const ds = debug("server");
-const dj = debug("json");
+const ds = debug("server"); // debug server
+const dj = debug("json"); // debug json
 
 const express = require("express")
 const app = express();
@@ -74,29 +74,46 @@ const Markdown = require("markdown-to-html").Markdown;
 const jsonfile = require("jsonfile");
 var fs = require("fs");
 
+// auto save
+function autoSaveIndex() {
+    dj("save")
+    jsonfile.writeFile("indexArti.json", indexArtiJSON);
+    setTimeout(autoSaveIndex,3600000);
+}
+
+var indexArtiJSON = {};
 var indexArti = {};
+
+
+/*
+* decision notice
+* articles is an array of json obj.
+*/
 jsonfile.readFile("indexArti.json",(err, obj)=>{
     if (err) {
         console.log("auto created empty article index.");
-        indexArti["test"] = "test1";
-        dj(indexArti);        
+        indexArti["articles"] = [];
+        indexArti["numArticles"] = 0;
+        indexArtiJSON = {
+            "name":"indexArti",
+            "location": "./indexArti",
+            "data": indexArti
+        }
+        dj(indexArtiJSON);
     }
     else {
-        indexArti = obj;
+        indexArtiJSON = obj;
+
+        dj("exist",indexArti)
     }
+    autoSaveIndex();
 })
 
-function autoSaveIndex() {
-    jsonfile.writeFile("indexArti.json", indexArti);
-    setTimeout(autoSaveIndex,3600000);
-}
-autoSaveIndex();
-console.log(indexArti);
+
 
 const hostname = "127.0.0.1";
 const port = 3000;
 
-dj("???")
 
 
 var arti=[];

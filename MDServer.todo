@@ -1,11 +1,20 @@
-☐ use iframe
-☐ add json @started(22-06-15 13:45)
-☐ add fs @started(22-06-15 13:46)
-✔ init html @done(22-06-15 13:46)
-✔ init server @done(22-06-15 13:46)
-✔ add debug @done(22-06-15 13:46)
-✔ integrad html in nodejs @done(22-06-15 13:46)
-✔ add md to html lib @done(22-06-15 13:45)
+MDServer:
+    ☐ test libs @started(22-06-15 22:39)
+    ☐ functional local server
+    ☐ mount on aws
+    ☐ git hub callback auto update
+    ☐ user login and online editor
+
+
+test:
+    ☐ use iframe
+    ☐ add json @started(22-06-15 13:45)
+    ☐ add fs @started(22-06-15 13:46)
+    ✔ init html @done(22-06-15 13:46)
+    ✔ init server @done(22-06-15 13:46)
+    ✔ add debug @done(22-06-15 13:46)
+    ✔ integrad html in nodejs @done(22-06-15 13:46)
+    ✔ add md to html lib @done(22-06-15 13:45)
 
 create two-way keyword index:
     ✔ test @started(22-06-15 13:47) @done(22-06-15 13:51) @lasted(4m35s)
@@ -14,6 +23,7 @@ create two-way keyword index:
     ☐ test write @started(22-06-15 13:55)
     ☐ create keyword index file
     ☐ create article index file
+    ✘ use map @started(22-06-15 14:17) @cancelled(22-06-15 14:19) @wasted(2m16s)
 
 create main page:
     ☐ write html
@@ -22,3 +32,7 @@ create main page:
 create content page:
     ☐ write html
     ☐ add server logic
+
+mount server on AWS:
+
+Archive:

@@ -31,20 +31,21 @@ body {
     text-align: center;
 }
 
+#realcodecg {
+    font-size: 100px;
+    margin:0px;
+}
+
 .menuBarDiv {
     text-align: center;
     align-items: center;
 }
 
-#realcodecg {
-    font-size: 100px;
-    margin:0px;
-}
+
 </style>
 `;
 
-var indexTitle = `<title>real code cg</title>
-`;
+var indexTitle = `Real Code CG Coding Blog`;
 var indexLang = `en`;
 var bodyHead = `
 <div class="bodyDiv">
@@ -74,6 +75,14 @@ var artiBodyLower = `
     </div>
 `;
 
+var keyBodyUpper = `
+    <div class="keyDiv">
+`;
+var keyBody = ``;
+var keyBodyLower = `
+    </div>
+`;
+
 const debug = require("debug");
 const ds = debug("server"); // debug server
 const dj = debug("json"); // debug json
@@ -92,6 +101,7 @@ const jsonfile = require("jsonfile");
 const fs = require("fs");
 const util = require("util");
 const timestamp = require('time-stamp');
+const { diffieHellman } = require("crypto");
 
 var artiIndexJSON = {};
 var artiIndex = {};
@@ -101,6 +111,9 @@ var numArticles = 0;
 
 var keyIndexJSON = {};
 var keyIndex = {};
+var keys = {};
+var numKeys = 0;
+var keyOrder = [];
 
 // auto save
 function autoSaveArti() {
@@ -134,23 +147,28 @@ jsonfile.readFile("keyIndex.json")
     })
     .catch(err => {
         if (err) {
-            dj("read key catch", err)
-            keyIndex = {
-                "keys": {
-                    "test": ["test","test2"],
-                    "test2": ["test2"]
+            if (err["errno"] != -4058) {
+                dj("read arti catch:",err)
+            }
+            keys = {
+                "test": ["test","test2"],
+                "test2": ["test2"]
+            };
+            numKeys = 2;
+            keyOrder = [
+                {
+                    "kid":1,
+                    "kname":"test"
                 },
-                "numKeys":2,
-                "orderList":[
-                    {
-                        "kid":1,
-                        "kname":"test"
-                    },
-                    {
-                        "kid":2,
-                        "kname":"test2"
-                    }
-                ]
+                {
+                    "kid":2,
+                    "kname":"test2"
+                }
+            ];
+            keyIndex = {
+                "keys": keys,
+                "numKeys":numKeys,
+                "keyOrder": keyOrder
             }
             keyIndexJSON = {
                 "name": "keyIndex",
@@ -158,6 +176,7 @@ jsonfile.readFile("keyIndex.json")
                 "data":keyIndex,
                 "lastModifiedTime":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")
             }
+            dj("created key index")
             autoSaveKey();
         }
     })
@@ -167,10 +186,11 @@ jsonfile.readFile("artiIndex.json")
         artiIndexJSON = obj;
         artiIndex = artiIndexJSON["data"];
         articles = artiIndex["articles"];
-        artiOrder = artiIndex["orderList"];
+        artiOrder = artiIndex["artiOrder"];
         numArticles = artiIndex["numArticles"];
         //dj("articles", articles);
         //dj("orderList", orderList)
+        indexBody = ""
         artiOrder.forEach(element => {
             //dj("element", articles[element["name"]])
             aname = element["aname"]
@@ -178,32 +198,39 @@ jsonfile.readFile("artiIndex.json")
                 "<p><a href=\"/article/" + aname + "\">" 
                 + aname +"</a><br><span>keywords: " 
                 + articles[aname]["keywords"] 
-                + "</span></p>";
+                + "</span></p>\n";
         });
-        indexBody += indexBodyLower;
+        dt(indexBody);
         dj("arti index read")
     })
     .catch(err => {
         if (err) {
-            dj("read arti catch:",err)
+            if (err["errno"] != -4058) {
+                dj("read arti catch:",err)
+            }
             // test test.md
             testArti = {"name": "test", "keywords": ["test"], "filename":"test.md", "upload":"2022/06/15 23:30:10:100 UTC-4", "change":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")};
             var testArti2 = {"name": "test2", "keywords": ["test","test2"], "filename":"test2.md", "upload":"2022/06/15 23:30:10:100 UTC-4", "change":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")}
-            artiIndex["articles"] = {};
-            artiIndex["articles"]["test"]=testArti;
-            artiIndex["articles"]["test2"]=testArti2;
-            artiIndex["numArticles"] = 2;
-            artiIndex["orderList"] = [];
-            artiIndex["orderList"].push({"aid":1, "aname":"test"});
-            artiIndex["orderList"].push({"aid":2, "aname":"test2"});
+            articles = {};
+            articles["test"]=testArti;
+            articles["test2"]=testArti2;
+            artiOrder = [];
+            artiOrder.push({"aid":1, "aname":"test"});
+            artiOrder.push({"aid":2, "aname":"test2"});
+            numArticles = 2;
+            artiIndex = {
+                "articles": articles,
+                "numArticles": numArticles,
+                "artiOrder":artiOrder
+            }
             artiIndexJSON = {
                 "name":"artiIndex",
                 "location": "./artiIndex.json",
                 "data": artiIndex,
                 "lastModifiedTime":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")
             }
-            dj("init test indexArti");
-            autoSaveIndex();
+            dj("created test arti index");
+            autoSaveArti();
         }
     })
 

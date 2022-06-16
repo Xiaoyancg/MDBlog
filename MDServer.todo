@@ -23,10 +23,17 @@ local server:
         ✔ on time save @started(22-06-15 13:51) @done(22-06-15 13:55) @lasted(4m25s)
         ✔ test read @started(22-06-15 13:55) @done(22-06-15 23:36) @lasted(9h41m11s)
         ✔ test write @started(22-06-15 13:55) @done(22-06-15 23:36) @lasted(9h41m13s)
-        ☐ create keyword index file @started(22-06-16 14:07)
+        ✔ create keyword index file @started(22-06-16 14:07) @done(22-06-16 16:45) @lasted(2h38m2s)
         ✔ create article index file @done(22-06-16 06:19)
         ✘ use map @started(22-06-15 14:17) @cancelled(22-06-15 14:19) @wasted(2m16s)
         ✔ add time stamp to json file @done(22-06-16 14:25)
+    basic html pages:
+        ✔ index page @done(22-06-16 16:45)
+        ☐ key page @started(22-06-16 16:46)
+    key pages:
+        ✔ design @done(22-06-16 16:46)
+        ☐ test framework @started(22-06-16 16:46)
+        ☐ dumb html
     link and route:
         ✔ test links @done(22-06-16 14:25)
         ☐ add links @started(22-06-16 13:56)

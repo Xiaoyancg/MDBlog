@@ -10,7 +10,7 @@
                 ],
                 "filename": "test.md",
                 "upload": "2022/06/15 23:30:10:100 UTC-4",
-                "change": "2022/06/16 16:11:51:190 UTC-4"
+                "change": "2022/06/16 16:25:30:552 UTC-4"
             },
             "test2": {
                 "name": "test2",
@@ -20,11 +20,11 @@
                 ],
                 "filename": "test2.md",
                 "upload": "2022/06/15 23:30:10:100 UTC-4",
-                "change": "2022/06/16 16:11:51:190 UTC-4"
+                "change": "2022/06/16 16:25:30:552 UTC-4"
             }
         },
         "numArticles": 2,
-        "orderList": [
+        "artiOrder": [
             {
                 "aid": 1,
                 "aname": "test"
@@ -35,5 +35,5 @@
             }
         ]
     },
-    "lastModifiedTime": "2022/06/16 16:11:51:190 UTC-4"
+    "lastModifiedTime": "2022/06/16 16:25:30:552 UTC-4"
 }

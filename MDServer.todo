@@ -26,6 +26,7 @@ local server:
         ☐ create keyword index file @started(22-06-16 14:07)
         ✔ create article index file @done(22-06-16 06:19)
         ✘ use map @started(22-06-15 14:17) @cancelled(22-06-15 14:19) @wasted(2m16s)
+        ☐ add time stamp to json file
     link and route:
         ☐ add links @started(22-06-16 13:56)
         ☐ add route rules

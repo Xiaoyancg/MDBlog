@@ -1,8 +1,8 @@
-var indexHead = `
+var mainHead = `
 <meta charset="utf-8" name="viewport" content="width=device-width.initial-scale=1.0*">
 `;
 
-var indexCss = `
+var mainCss = `
 <style>
 body {
     background-color: #10151b;
@@ -45,21 +45,21 @@ body {
 </style>
 `;
 
-var indexTitle = `Real Code CG Coding Blog`;
-var indexLang = `en`;
-var bodyHead = `
+var mainLang = `en`;
+var mainBodyUpper = `
 <div class="bodyDiv">
     <div class="titleDiv">
         <h1 class="title" id="realcodecg">Real Code CG</span>
     </div>
     <div class="menuBarDiv">
-        <span><a href="/">index</a>, keywords</span>
+        <span><a href="/">index</a>, <a href="/keywords">keywords search</a></span>
     </div>
 `;
 
-var bodyEnd =`
+var mainBodyLower =`
 </div>`;
 
+var indexTitle = `Real Code CG Coding Blog`;
 var indexBodyUpper = `
     <div class="indexDiv">
 `;
@@ -68,6 +68,8 @@ var indexBodyLower = `
     </div>
 `;
 
+
+var artiTitle = indexTitle;
 var artiBodyUpper = `
     <div class="articleDiv>
 `;
@@ -75,13 +77,24 @@ var artiBodyLower = `
     </div>
 `;
 
+
+var keyTitle = indexTitle + `: key search`;
 var keyBodyUpper = `
     <div class="keyDiv">
+        <table class="keyTable">
+            <tr>
 `;
 var keyBody = ``;
 var keyBodyLower = `
+            </tr>
+        </table>
     </div>
 `;
+
+var keySearchTitle = "keysearch";
+var keySearchBodyUpper = ``;
+var keySearchBody = `teststeasafsdfas`;
+var keySearchBodyLower = ``;
 
 const debug = require("debug");
 const ds = debug("server"); // debug server
@@ -143,6 +156,21 @@ jsonfile.readFile("keyIndex.json")
     .then(obj => {
         keyIndexJSON = obj;
         keyIndex = keyIndexJSON["data"];
+        keys = keyIndex["keys"];
+        numKeys = keyIndex["numKeys"];
+        keyOrder = keyIndex["keyOrder"];
+        keyBody = ``;
+        // add left column for key list
+        keyBody += `<td class="keyLeft"><div class="keyListDiv">\n`;
+        keyOrder.forEach(element=>{
+            var kname = element["kname"];
+            keyBody += `<p>${kname}</p>\n`
+        })
+        keyBody += `</div></td>`;
+        // add right column
+        keyBody += `<td class="keyRight"><div class="keySearchDiv">\n`;
+        keyBody += `<iframe src="/keysearch?" title="keysearch">iframe<iframe>`
+        keyBody += `</div></td>`
         dj("key index read");
     })
     .catch(err => {
@@ -200,7 +228,7 @@ jsonfile.readFile("artiIndex.json")
                 + articles[aname]["keywords"] 
                 + "</span></p>\n";
         });
-        dt(indexBody);
+        //dt(indexBody);
         dj("arti index read")
     })
     .catch(err => {
@@ -239,8 +267,6 @@ jsonfile.readFile("artiIndex.json")
 const hostname = "127.0.0.1";
 const port = 3000;
 
-
-
 app.get("/article/*", (req,res)=>{
     artiName = req.path.split("/")[2];
     dm("name",artiName);
@@ -253,10 +279,10 @@ app.get("/article/*", (req,res)=>{
     .then((data)=>{
         artiBody = converter.makeHtml(""+data);
         res.send(HTMLCreater({
-            title: artiName,
-            lang:indexLang,
-            head: indexHead + indexCss,
-            body: bodyHead + artiBodyUpper + artiBody + artiBodyLower + bodyEnd
+            title: artiTitle + ": " + artiName,
+            lang: mainLang,
+            head: mainHead + mainCss,
+            body: mainBodyUpper + artiBodyUpper + artiBody + artiBodyLower + mainBodyLower
         }))
     })
     .catch((err)=>{
@@ -265,12 +291,30 @@ app.get("/article/*", (req,res)=>{
 
 });
 
+app.get("/keywords", (req,res)=>{
+    res.send(HTMLCreater({
+        title: keyTitle,
+        lang: mainLang,
+        head: mainHead + mainCss,
+        body: mainBodyUpper + keyBodyUpper + keyBody + keyBodyLower + mainBodyLower
+    }))
+})
+
+app.get("/keysearch*", (req,res)=>{
+    res.send(HTMLCreater({
+        title: keySearchTitle,
+        lang: mainLang,
+        head: mainHead,
+        body: keySearchBodyUpper + keySearchBody + keySearchBodyLower
+    }))
+})
+
 app.get("/", function(req, res) {
     res.send(HTMLCreater({
         title:indexTitle,
-        lang: indexLang,
-        head: indexHead+indexCss,
-        body: bodyHead + indexBodyUpper + indexBody + indexBodyLower + bodyEnd
+        lang: mainLang,
+        head: mainHead+mainCss,
+        body: mainBodyUpper + indexBodyUpper + indexBody + indexBodyLower + mainBodyLower
     }))
     // ds(req.hostname);
     // res.sendFile(__dirname + "/doc" + "/index.html");

@@ -52,7 +52,7 @@ var bodyHead = `
         <h1 class="title" id="realcodecg">Real Code CG</span>
     </div>
     <div class="menuBarDiv">
-        <span>main page, keywords, search by keywords</span>
+        <span><a href="/">index</a>, keywords</span>
     </div>
 `;
 
@@ -78,6 +78,7 @@ const debug = require("debug");
 const ds = debug("server"); // debug server
 const dj = debug("json"); // debug json
 const dm = debug("markdown"); // debug markdown
+const dt = debug("html"); // debug html
 
 const express = require("express")
 const app = express();
@@ -110,14 +111,17 @@ jsonfile.readFile("indexArti.json")
     .then(obj =>{
         indexArtiJSON = obj;
         indexArti = indexArtiJSON["data"];
-        dj("exist",indexArti)
-        //dj("test article: ", indexArti["articles"][indexArti["numArticles"]-1]);
+        dj("exist")
         orderList = indexArti["orderList"];
-        indexArti["orderList"].forEach(element => {
-            indexBody += "<span>" + indexArti["articles"][element["name"]]["name"] +" keywords: " + indexArti["articles"][element["name"]]["keywords"] + "</span><br>\n";
+        articles = indexArti["articles"];
+        //dj("articles", articles);
+        //dj("orderList", orderList)
+        orderList.forEach(element => {
+            //dj("element", articles[element["name"]])
+            indexBody += "<p><a href=\"/article/" + element["name"] + "\">" + indexArti["articles"][element["name"]]["name"] +"</a><br><span>keywords: " + indexArti["articles"][element["name"]]["keywords"] + "</span></p>";
         });
         indexBody += indexBodyLower;
-        articles = indexArti["articles"];
+        
     })
     .catch(err => {
         if (err) {

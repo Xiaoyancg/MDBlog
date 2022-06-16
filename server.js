@@ -73,6 +73,7 @@ var toString = require('stream-to-string');
 const Markdown = require("markdown-to-html").Markdown;
 const jsonfile = require("jsonfile");
 var fs = require("fs");
+const timestamp = require('time-stamp');
 
 // auto save
 function autoSaveIndex() {
@@ -102,7 +103,7 @@ jsonfile.readFile("indexArti.json")
             dj("catch:",err)
             console.log("auto created empty article index.");
             // test test.md
-            testArti = {"name": "test", "keyword": "test"}
+            testArti = {"name": "test", "keyword": "test", "filename":"test.md", "upload":"2022/06/15 23:30:10:100 UTC-4", "change":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")}
             indexArti["articles"] = [testArti];
             indexArti["numArticles"] = 1;
             indexArtiJSON = {

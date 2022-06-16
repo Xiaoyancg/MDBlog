@@ -7,9 +7,9 @@ MDServer:
 
 
 test:
-    ☐ use iframe
-    ☐ add json @started(22-06-15 13:45)
-    ☐ add fs @started(22-06-15 13:46)
+    ✘ use iframe @started(22-06-15 23:36) @cancelled(22-06-15 23:40) @wasted(4m6s)
+    ✔ add json @started(22-06-15 13:45) @done(22-06-15 23:36) @lasted(9h51m6s)
+    ✔ add fs @started(22-06-15 13:46) @done(22-06-15 23:36) @lasted(9h50m5s)
     ✔ init html @done(22-06-15 13:46)
     ✔ init server @done(22-06-15 13:46)
     ✔ add debug @done(22-06-15 13:46)
@@ -19,18 +19,18 @@ test:
 create two-way keyword index:
     ✔ test @started(22-06-15 13:47) @done(22-06-15 13:51) @lasted(4m35s)
     ✔ on time save @started(22-06-15 13:51) @done(22-06-15 13:55) @lasted(4m25s)
-    ☐ test read @started(22-06-15 13:55)
-    ☐ test write @started(22-06-15 13:55)
+    ✔ test read @started(22-06-15 13:55) @done(22-06-15 23:36) @lasted(9h41m11s)
+    ✔ test write @started(22-06-15 13:55) @done(22-06-15 23:36) @lasted(9h41m13s)
     ☐ create keyword index file
     ☐ create article index file
     ✘ use map @started(22-06-15 14:17) @cancelled(22-06-15 14:19) @wasted(2m16s)
 
 create main page:
-    ☐ write html
+    ☐ write html @started(22-06-15 23:36)
     ☐ add server logic
 
 create content page:
-    ☐ write html
+    ☐ write html @started(22-06-15 23:36)
     ☐ add server logic
 
 mount server on AWS:

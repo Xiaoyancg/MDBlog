@@ -1,6 +1,6 @@
 {
-    "name": "indexKey",
-    "location": "./indexKeyJSON",
+    "name": "keyIndex",
+    "location": "./keyIndex.json",
     "data": {
         "keys": {
             "test": [
@@ -23,5 +23,5 @@
             }
         ]
     },
-    "lastModifiedTime": "2022/06/16 14:31:48:422 UTC-4"
+    "lastModifiedTime": "2022/06/16 16:11:51:186 UTC-4"
 }

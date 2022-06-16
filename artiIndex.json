@@ -1,6 +1,6 @@
 {
-    "name": "indexArti",
-    "location": "./indexArti.json",
+    "name": "artiIndex",
+    "location": "./artiIndex.json",
     "data": {
         "articles": {
             "test": {
@@ -10,7 +10,7 @@
                 ],
                 "filename": "test.md",
                 "upload": "2022/06/15 23:30:10:100 UTC-4",
-                "change": "2022/06/16 15:57:06:340 UTC-4"
+                "change": "2022/06/16 16:11:51:190 UTC-4"
             },
             "test2": {
                 "name": "test2",
@@ -20,7 +20,7 @@
                 ],
                 "filename": "test2.md",
                 "upload": "2022/06/15 23:30:10:100 UTC-4",
-                "change": "2022/06/16 15:57:06:341 UTC-4"
+                "change": "2022/06/16 16:11:51:190 UTC-4"
             }
         },
         "numArticles": 2,
@@ -35,5 +35,5 @@
             }
         ]
     },
-    "lastModifiedTime": "2022/06/16 15:57:06:341 UTC-4"
+    "lastModifiedTime": "2022/06/16 16:11:51:190 UTC-4"
 }

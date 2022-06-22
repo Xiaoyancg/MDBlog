@@ -79,6 +79,13 @@ var artiBodyLower = `
 
 // key page
 var keyTitle = indexTitle + `: key search`;
+var keyScript = `
+var searchKeys = [];
+function addKey(key) {
+    searchKeys.push(key);
+}
+
+`;
 var keyCSS = `
 <style>
 .keyDiv {
@@ -195,7 +202,7 @@ jsonfile.readFile("keyIndex.json")
         keyBody += `<td class="keyLeft"><div class="keyListDiv">\n`;
         keyOrder.forEach(element=>{
             var kname = element["kname"];
-            keyBody += `<p>${kname}</p>\n`
+            keyBody += `<p><a href="/keysearch?k1=${kname}" target="searchResult">${kname}</a></p>\n`
         })
         keyBody += `</div></td>`;
         // add right column
@@ -331,7 +338,8 @@ app.get("/keywords", (req,res)=>{
     }))
 })
 
-app.get("/keysearch*", (req,res)=>{
+app.get("/keysearch?", (req,res)=>{
+    ds(req.query)
     res.send(HTMLCreater({
         title: keySearchTitle,
         lang: mainLang,

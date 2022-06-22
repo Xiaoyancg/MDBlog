@@ -34,14 +34,15 @@ local server:
         ✔ design @done(22-06-16 16:46)
         ✔ test framework @started(22-06-16 16:46) @done(22-06-16 17:31) @lasted(45m59s)
         ✔ dumb html @done(22-06-16 17:31)
-        ☐ add key page css @started(22-06-16 17:32)
-        ☐ add key search page css
+        ✔ add key page css @started(22-06-16 17:32) @done(22-06-16 17:55) @lasted(23m28s)
+        ✔ add key search page css @done(22-06-16 17:55)
     link and route:
         ✔ test links @done(22-06-16 14:25)
         ☐ add links @started(22-06-16 13:56)
+        ☐ add key search route @started(22-06-16 17:56)
         ☐ test route @started(22-06-16 14:26)
         ☐ add route rules
-
+    
 beautify:
     index:
         ☐ write html @started(22-06-15 23:36)

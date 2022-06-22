@@ -119,7 +119,7 @@ var keyBodyLower = `
 `;
 
 // key search page
-var keySearchTitle = "keysearch";
+var keySearchTitle = "keySearch";
 var keySearchCSS = `
 <style>
 body {
@@ -131,7 +131,7 @@ body {
 </style>
 `;
 var keySearchBodyUpper = ``;
-var keySearchBody = `teststeasafsdfas`;
+var keySearchBody = `test key search body`;
 var keySearchBodyLower = ``;
 
 const debug = require("debug");
@@ -144,7 +144,7 @@ const express = require("express")
 const app = express();
 const path = require("path")
 
-const HTMLCreater = require("create-html");
+const HTMLCreator = require("create-html");
 var showdown  = require('showdown');
 var converter = new showdown.Converter();
 
@@ -207,7 +207,7 @@ jsonfile.readFile("keyIndex.json")
         keyBody += `</div></td>`;
         // add right column
         keyBody += `<td class="keyRight"><div class="keySearchDiv">\n`;
-        keyBody += `<iframe src="/keysearch?" title="keysearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
+        keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
         keyBody += `</div></td>`
         dj("key index read");
     })
@@ -316,7 +316,7 @@ app.get("/article/*", (req,res)=>{
     fs.promises.readFile(artiPath)
     .then((data)=>{
         artiBody = converter.makeHtml(""+data);
-        res.send(HTMLCreater({
+        res.send(HTMLCreator({
             title: artiTitle + ": " + artiName,
             lang: mainLang,
             head: mainHead + mainCSS,
@@ -330,7 +330,7 @@ app.get("/article/*", (req,res)=>{
 });
 
 app.get("/keywords", (req,res)=>{
-    res.send(HTMLCreater({
+    res.send(HTMLCreator({
         title: keyTitle,
         lang: mainLang,
         head: mainHead + mainCSS + keyCSS,
@@ -338,9 +338,9 @@ app.get("/keywords", (req,res)=>{
     }))
 })
 
-app.get("/keysearch?", (req,res)=>{
+app.get("/keySearch?", (req,res)=>{
     ds(req.query)
-    res.send(HTMLCreater({
+    res.send(HTMLCreator({
         title: keySearchTitle,
         lang: mainLang,
         head: mainHead + keySearchCSS,
@@ -349,7 +349,7 @@ app.get("/keysearch?", (req,res)=>{
 })
 
 app.get("/", function(req, res) {
-    res.send(HTMLCreater({
+    res.send(HTMLCreator({
         title:indexTitle,
         lang: mainLang,
         head: mainHead+mainCSS,

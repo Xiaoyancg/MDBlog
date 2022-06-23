@@ -80,12 +80,46 @@ var artiBodyLower = `
 // key page
 var keyTitle = indexTitle + `: key search`;
 var keyScript = `
-var searchKeys = [];
-function addKey(key) {
-    searchKeys.push(key);
-}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>\n
+<script>
 
+var searchArray = [];
+var keyCounter = 0;
+$(document).ready(function(){
+    $("#searchArray").text("key list:");
+    $(".keyLink").click(function(){
+        addKey(event.target.innerHTML);
+    })
+});
+
+function addKey(key) {
+    var exist = false;
+    for (var i = 0; i < searchArray.length; i++) {
+        if (searchArray[i] == key) {
+            searchArray.splice(i,1);
+            exist = true;
+            keyCounter -= 1;
+            
+            break;
+        }
+    }
+    if (!exist) {
+        searchArray.push(key);
+        keyCounter += 1;
+    }
+    var searchString = "";
+    for (var i = 0; i < searchArray.length; i++) {
+        searchString += searchArray[i];
+        if (i != searchArray.length - 1) {
+            searchString += ", ";
+        }
+    }
+    
+    $("#searchArray").text(searchString);
+}
+</script>
 `;
+
 var keyCSS = `
 <style>
 .keyDiv {
@@ -199,15 +233,18 @@ jsonfile.readFile("keyIndex.json")
         keyOrder = keyIndex["keyOrder"];
         keyBody = ``;
         // add left column for key list
-        keyBody += `<td class="keyLeft"><div class="keyListDiv">\n`;
+        keyBody += `<td class="keyLeft">`;
+        keyBody += `\n<p id="searchArray"></p>\n`;
+        keyBody += `<div class="keyListDiv">\n`;
         keyOrder.forEach(element=>{
             var kname = element["kname"];
-            keyBody += `<p><a href="/keysearch?k1=${kname}" target="searchResult">${kname}</a></p>\n`
+            keyBody += `<p><a class="keyLink" href="/keySearch?k1=${kname}" target="searchResult")>${kname}</a></p>\n`
         })
         keyBody += `</div></td>`;
         // add right column
         keyBody += `<td class="keyRight"><div class="keySearchDiv">\n`;
-        keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
+        keyBody += `<embed src="/keySearch?">`
+        //keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
         keyBody += `</div></td>`
         dj("key index read");
     })
@@ -333,7 +370,7 @@ app.get("/keywords", (req,res)=>{
     res.send(HTMLCreator({
         title: keyTitle,
         lang: mainLang,
-        head: mainHead + mainCSS + keyCSS,
+        head: mainHead + mainCSS + keyCSS + keyScript,
         body: mainBodyUpper + keyBodyUpper + keyBody + keyBodyLower + mainBodyLower
     }))
 })

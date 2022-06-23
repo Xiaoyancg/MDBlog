@@ -85,10 +85,29 @@ var keyScript = `
 
 var searchArray = [];
 var keyCounter = 0;
+
+function qsMaker(data) {
+    const ret = [];
+    for (let d in data) {
+        ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    }
+    return ret.join("&").toString;
+}
 $(document).ready(function(){
     $("#searchArray").text("key list:");
     $(".keyLink").click(function(){
         addKey(event.target.innerHTML);
+    })
+    $("#searchBut").click(function() {
+        numKey = searchArray.length
+        curpath = location.pathname
+        qpath = curpath + "?"
+        qpath += "numKey" + "=" + numKey;
+        for (let k in searchArray) {
+            qpath += "&key" + k.toString() + "=" + searchArray[k].toString();
+        }
+        console.log(qpath);
+        //window.open(,"_self")
     })
 });
 
@@ -276,7 +295,7 @@ jsonfile.readFile("artiIndex.json")
         keyBody += `<div class="keyListDiv">\n`;
         keyOrder.forEach(element=>{
             var kname = element["kname"];
-            keyBody += `<p><button class="keyLink" href="/keywords?k1=${kname}")>${kname}</button></p>\n`
+            keyBody += `<p><button class="keyLink" id="but_${kname}")>${kname}</button></p>\n`
         })
         keyBody += `</div></td>`;
         // add right column

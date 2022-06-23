@@ -56,5 +56,12 @@ mount server on AWS:
     ☐ set ec2 ruls
     ☐ run and test
 
+key search:
+    ✔ design @done(22-06-23 12:15)
+    ☐ write search page @started(22-06-23 12:16)
+        ✔ write button @done(22-06-23 12:16)
+        ✔ write query url creator @done(22-06-23 12:16)
+    ☐ write query function in server
+    ☐ 
 
 Archive:

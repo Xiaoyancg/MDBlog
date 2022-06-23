@@ -1,6 +1,8 @@
 {
     "cSpell.ignoreWords": [
         "aname",
-        "kname"
+        "curpath",
+        "kname",
+        "qpath"
     ]
 }

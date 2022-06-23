@@ -115,7 +115,7 @@ function addKey(key) {
         }
     }
     
-    $("#searchArray").text(searchString);
+    $("#searchArray").text("searching keys: " + searchString);
 }
 </script>
 `;
@@ -272,11 +272,11 @@ jsonfile.readFile("artiIndex.json")
         keyBody = ``;
         // add left column for key list
         keyBody += `<td class="keyLeft">`;
-        keyBody += `\n<p id="searchArray"></p>\n`;
+        keyBody += `\n<p><span id="searchArray"></span><button id="searchBut">Search</button></p>\n`;
         keyBody += `<div class="keyListDiv">\n`;
         keyOrder.forEach(element=>{
             var kname = element["kname"];
-            keyBody += `<p><a class="keyLink" href="/keywords?k1=${kname}")>${kname}</a></p>\n`
+            keyBody += `<p><button class="keyLink" href="/keywords?k1=${kname}")>${kname}</button></p>\n`
         })
         keyBody += `</div></td>`;
         // add right column

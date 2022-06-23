@@ -152,22 +152,6 @@ var keyBodyLower = `
     </div>
 `;
 
-// key search page
-var keySearchTitle = "keySearch";
-var keySearchCSS = `
-<style>
-body {
-    background-color: #10151b;
-    color: rgb(237,237,237);
-    z-index: -10;
-    align-items: center;
-}
-</style>
-`;
-var keySearchBodyUpper = ``;
-var keySearchBody = `test key search body`;
-var keySearchBodyLower = ``;
-
 const debug = require("debug");
 const ds = debug("server"); // debug server
 const dj = debug("json"); // debug json
@@ -224,66 +208,6 @@ function autoSaveKey() {
 }
 
 
-jsonfile.readFile("keyIndex.json")
-    .then(obj => {
-        keyIndexJSON = obj;
-        keyIndex = keyIndexJSON["data"];
-        keys = keyIndex["keys"];
-        numKeys = keyIndex["numKeys"];
-        keyOrder = keyIndex["keyOrder"];
-        keyBody = ``;
-        // add left column for key list
-        keyBody += `<td class="keyLeft">`;
-        keyBody += `\n<p id="searchArray"></p>\n`;
-        keyBody += `<div class="keyListDiv">\n`;
-        keyOrder.forEach(element=>{
-            var kname = element["kname"];
-            keyBody += `<p><a class="keyLink" href="/keySearch?k1=${kname}" target="searchResult")>${kname}</a></p>\n`
-        })
-        keyBody += `</div></td>`;
-        // add right column
-        keyBody += `<td class="keyRight"><div class="keySearchDiv">\n`;
-        keyBody += `<embed src="/keySearch?">`
-        //keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
-        keyBody += `</div></td>`
-        dj("key index read");
-    })
-    .catch(err => {
-        if (err) {
-            if (err["errno"] != -4058) {
-                dj("read arti catch:",err)
-            }
-            keys = {
-                "test": ["test","test2"],
-                "test2": ["test2"]
-            };
-            numKeys = 2;
-            keyOrder = [
-                {
-                    "kid":1,
-                    "kname":"test"
-                },
-                {
-                    "kid":2,
-                    "kname":"test2"
-                }
-            ];
-            keyIndex = {
-                "keys": keys,
-                "numKeys":numKeys,
-                "keyOrder": keyOrder
-            }
-            keyIndexJSON = {
-                "name": "keyIndex",
-                "location": "./keyIndex.json",
-                "data":keyIndex,
-                "lastModifiedTime":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")
-            }
-            dj("created key index")
-            autoSaveKey();
-        }
-    })
-
 jsonfile.readFile("artiIndex.json")
     .then(obj =>{
         artiIndexJSON = obj;
@@ -338,6 +262,78 @@ jsonfile.readFile("artiIndex.json")
     })
 
 
+    jsonfile.readFile("keyIndex.json")
+    .then(obj => {
+        keyIndexJSON = obj;
+        keyIndex = keyIndexJSON["data"];
+        keys = keyIndex["keys"];
+        numKeys = keyIndex["numKeys"];
+        keyOrder = keyIndex["keyOrder"];
+        keyBody = ``;
+        // add left column for key list
+        keyBody += `<td class="keyLeft">`;
+        keyBody += `\n<p id="searchArray"></p>\n`;
+        keyBody += `<div class="keyListDiv">\n`;
+        keyOrder.forEach(element=>{
+            var kname = element["kname"];
+            keyBody += `<p><a class="keyLink" href="/keywords?k1=${kname}")>${kname}</a></p>\n`
+        })
+        keyBody += `</div></td>`;
+        // add right column
+        keyBody += `<td class="keyRight"><div class="keySearchDiv">\n`;
+        // give up on in-page search design
+        //keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
+        // default show all articles
+        ds(artiOrder)
+        artiOrder.forEach(element => {
+            //dj("element", articles[element["name"]])
+            aname = element["aname"]
+            ds("test");
+            keyBody += 
+                "<p><a href=\"/article/" + aname + "\">" 
+                + aname +"</a><br><span>keywords: " 
+                + articles[aname]["keywords"] 
+                + "</span></p>\n";
+        });
+        keyBody += `</div></td>`
+        dj("key index read");
+    })
+    .catch(err => {
+        if (err) {
+            if (err["errno"] != -4058) {
+                dj("read arti catch:",err)
+            }
+            keys = {
+                "test": ["test","test2"],
+                "test2": ["test2"]
+            };
+            numKeys = 2;
+            keyOrder = [
+                {
+                    "kid":1,
+                    "kname":"test"
+                },
+                {
+                    "kid":2,
+                    "kname":"test2"
+                }
+            ];
+            keyIndex = {
+                "keys": keys,
+                "numKeys":numKeys,
+                "keyOrder": keyOrder
+            }
+            keyIndexJSON = {
+                "name": "keyIndex",
+                "location": "./keyIndex.json",
+                "data":keyIndex,
+                "lastModifiedTime":timestamp("YYYY/MM/DD HH:mm:ss:ms UTC-4")
+            }
+            dj("created key index")
+            autoSaveKey();
+        }
+    })
+
 
 const hostname = "127.0.0.1";
 const port = 3000;
@@ -366,22 +362,12 @@ app.get("/article/*", (req,res)=>{
 
 });
 
-app.get("/keywords", (req,res)=>{
+app.get("/keywords?", (req,res)=>{
     res.send(HTMLCreator({
         title: keyTitle,
         lang: mainLang,
         head: mainHead + mainCSS + keyCSS + keyScript,
         body: mainBodyUpper + keyBodyUpper + keyBody + keyBodyLower + mainBodyLower
-    }))
-})
-
-app.get("/keySearch?", (req,res)=>{
-    ds(req.query)
-    res.send(HTMLCreator({
-        title: keySearchTitle,
-        lang: mainLang,
-        head: mainHead + keySearchCSS,
-        body: keySearchBodyUpper + keySearchBody + keySearchBodyLower
     }))
 })
 

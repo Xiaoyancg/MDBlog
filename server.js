@@ -107,7 +107,8 @@ $(document).ready(function(){
             qpath += "&key" + k.toString() + "=" + searchArray[k].toString();
         }
         console.log(qpath);
-        //window.open(,"_self")
+        //window.open(qpath,"_self")
+        window.location.href = qpath;
     })
 });
 
@@ -381,7 +382,7 @@ app.get("/article/*", (req,res)=>{
 
 });
 
-app.get("/keywords?", (req,res)=>{
+app.get("/keywords?*", (req,res)=>{
     res.send(HTMLCreator({
         title: keyTitle,
         lang: mainLang,

@@ -93,10 +93,17 @@ function qsMaker(data) {
     }
     return ret.join("&").toString;
 }
+kv = {}
 $(document).ready(function(){
     qString = window.location.search;
-    qString = kv.substring(1);
-    console.log(qString);
+    qString = qString.substring(1);
+    kvStringList = qString.split("&");
+    for (i = 0, kvl = kvStringList.length; i < kvl; i++) {
+        kvString = kvStringList[i].split("=");
+        kv[decodeURIComponent(kvString[0])] = decodeURIComponent(kvString[1]);
+
+    }
+    console.log(kv);
     $("#searchArray").text("key list:");
     $(".keyLink").click(function(){
         addKey(event.target.innerHTML);

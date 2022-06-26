@@ -62,11 +62,18 @@ key search:
         ✔ write button @done(22-06-23 12:16)
         ✔ write query url creator @done(22-06-23 12:16)
         ✔ add search link to search button @done(22-06-25 23:40)
-        ☐ use encodeURIComponent to encode @started(22-06-25 23:42)
-        ☐ decode query variables @started(22-06-25 23:41)
-        ☐ show the current search states
+        ✔ use encodeURIComponent to encode @started(22-06-25 23:42) @done(22-06-26 00:20) @lasted(38m54s)
+        ✔ add decode @done(22-06-26 00:20)
+        ✔ decode query variables @started(22-06-25 23:41) @done(22-06-26 00:21) @lasted(40m5s)
+        ✔ show the current search states @done(22-06-26 00:21)
+        ☐ print search result
+        ☐ keep the searching box float and fix on page when scrolling
     ☐ write query function in server
+        ☐ parse query varaibles
         ☐ decode query variables
+        ☐ retrieve articles
+        ☐ send articles in res
+
     ☐ 
 
 Archive:

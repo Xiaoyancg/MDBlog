@@ -106,6 +106,7 @@ $(document).ready(function(){
         for (let k in searchArray) {
             qpath += "&key" + k.toString() + "=" + searchArray[k].toString();
         }
+        qpath = encodeURIComponent(qpath);
         console.log(qpath);
         //window.open(qpath,"_self")
         window.location.href = qpath;

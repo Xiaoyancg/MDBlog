@@ -61,7 +61,12 @@ key search:
     ☐ write search page @started(22-06-23 12:16)
         ✔ write button @done(22-06-23 12:16)
         ✔ write query url creator @done(22-06-23 12:16)
+        ✔ add search link to search button @done(22-06-25 23:40)
+        ☐ use encodeURIComponent to encode @started(22-06-25 23:42)
+        ☐ decode query variables @started(22-06-25 23:41)
+        ☐ show the current search states
     ☐ write query function in server
+        ☐ decode query variables
     ☐ 
 
 Archive:

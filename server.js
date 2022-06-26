@@ -94,6 +94,8 @@ function qsMaker(data) {
     return ret.join("&").toString;
 }
 $(document).ready(function(){
+
+    console.log(window.location.pathname);
     $("#searchArray").text("key list:");
     $(".keyLink").click(function(){
         addKey(event.target.innerHTML);
@@ -104,9 +106,8 @@ $(document).ready(function(){
         qpath = curpath + "?"
         qpath += "numKey" + "=" + numKey;
         for (let k in searchArray) {
-            qpath += "&key" + k.toString() + "=" + searchArray[k].toString();
+            qpath += "&key" + encodeURIComponent(k.toString()) + "=" + encodeURIComponent(searchArray[k].toString());
         }
-        qpath = encodeURIComponent(qpath);
         console.log(qpath);
         //window.open(qpath,"_self")
         window.location.href = qpath;

@@ -94,8 +94,9 @@ function qsMaker(data) {
     return ret.join("&").toString;
 }
 $(document).ready(function(){
-
-    console.log(window.location.pathname);
+    qString = window.location.search;
+    qString = kv.substring(1);
+    console.log(qString);
     $("#searchArray").text("key list:");
     $(".keyLink").click(function(){
         addKey(event.target.innerHTML);

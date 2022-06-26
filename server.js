@@ -84,8 +84,8 @@ var keyScript = `
 <script>
 
 var searchArray = [];
-var keyCounter = 0;
-
+var numKey = 0;
+kv = {}
 function qsMaker(data) {
     const ret = [];
     for (let d in data) {
@@ -93,7 +93,7 @@ function qsMaker(data) {
     }
     return ret.join("&").toString;
 }
-kv = {}
+
 $(document).ready(function(){
     qString = window.location.search;
     qString = qString.substring(1);
@@ -101,10 +101,11 @@ $(document).ready(function(){
     for (i = 0, kvl = kvStringList.length; i < kvl; i++) {
         kvString = kvStringList[i].split("=");
         kv[decodeURIComponent(kvString[0])] = decodeURIComponent(kvString[1]);
-
     }
-    console.log(kv);
-    $("#searchArray").text("key list:");
+    numKey = kv["numKey"]
+    for (i = 0; i < numKey; i ++) {
+        addKey(kv["key"+i.toString()]);
+    }
     $(".keyLink").click(function(){
         addKey(event.target.innerHTML);
     })
@@ -128,14 +129,13 @@ function addKey(key) {
         if (searchArray[i] == key) {
             searchArray.splice(i,1);
             exist = true;
-            keyCounter -= 1;
-            
+            numKey -= 1;
             break;
         }
     }
     if (!exist) {
         searchArray.push(key);
-        keyCounter += 1;
+        numKey += 1;
     }
     var searchString = "";
     for (var i = 0; i < searchArray.length; i++) {
@@ -302,7 +302,7 @@ jsonfile.readFile("artiIndex.json")
         keyBody = ``;
         // add left column for key list
         keyBody += `<td class="keyLeft">`;
-        keyBody += `\n<p><span id="searchArray"></span><button id="searchBut">Search</button></p>\n`;
+        keyBody += `\n<p><span id="searchArray">searching keys: </span><button id="searchBut">Search</button></p>\n`;
         keyBody += `<div class="keyListDiv">\n`;
         keyOrder.forEach(element=>{
             var kname = element["kname"];

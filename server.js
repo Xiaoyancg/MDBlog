@@ -293,31 +293,7 @@ jsonfile.readFile("artiIndex.json")
         keys = keyIndex["keys"];
         numKeys = keyIndex["numKeys"];
         keyOrder = keyIndex["keyOrder"];
-        // add left column for key list
-        keyBodyLeft += `<td class="keyLeft">`;
-        keyBodyLeft += `\n<p><span id="searchArray">searching keys: </span><br><button id="searchBut">Search</button></p>\n`;
-        keyBodyLeft += `<div class="keyListDiv">\n`;
-        keyOrder.forEach(element=>{
-            var kname = element["kname"];
-            keyBodyLeft += `<p><button class="keyLink" id="but_${kname}")>${kname}</button></p>\n`
-        })
-        keyBodyLeft += `</div></td>`;
-        // add right column
-        keyBodyRight += `<td class="keyRight"><div class="keySearchDiv">\n`;
-        // give up on in-page search design
-        //keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
-        // default show all articles
-        ds(artiOrder)
-        artiOrder.forEach(element => {
-            //dj("element", articles[element["name"]])
-            aname = element["aname"]
-            keyBodyRight += 
-                "<p><a href=\"/article/" + aname + "\">" 
-                + aname +"</a><br><span>keywords: " 
-                + articles[aname]["keywords"] 
-                + "</span></p>\n";
-        });
-        keyBodyRight += `</div></td>`
+
         dj("key index read");
     })
     .catch(err => {
@@ -385,6 +361,34 @@ app.get("/article/*", (req,res)=>{
 });
 
 app.get("/keywords?*", (req,res)=>{
+
+    // add left column for key list
+    keyBodyLeft += `<td class="keyLeft">`;
+    keyBodyLeft += `\n<p><span id="searchArray">searching keys: </span><br><button id="searchBut">Search</button></p>\n`;
+    keyBodyLeft += `<div class="keyListDiv">\n`;
+    keyOrder.forEach(element=>{
+        var kname = element["kname"];
+        keyBodyLeft += `<p><button class="keyLink" id="but_${kname}")>${kname}</button></p>\n`
+    })
+    keyBodyLeft += `</div></td>`;
+    // add right column
+    keyBodyRight += `<td class="keyRight"><div class="keySearchDiv">\n`;
+    // give up on in-page search design
+    //keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
+    // default show all articles
+    ds(artiOrder)
+    artiOrder.forEach(element => {
+        //dj("element", articles[element["name"]])
+        aname = element["aname"]
+        keyBodyRight += 
+            "<p><a href=\"/article/" + aname + "\">" 
+            + aname +"</a><br><span>keywords: " 
+            + articles[aname]["keywords"] 
+            + "</span></p>\n";
+    });
+    keyBodyRight += `</div></td>`
+
+
     numKey = req.query["numKey"];
     
     for (ki = 0; ki < numKeys; ki++) {

@@ -175,7 +175,8 @@ var keyBodyUpper = `
         <table class="keyTable">
             <tr>
 `;
-var keyBody = ``;
+var keyBodyLeft = ``;
+var keyBodyRight = ``;
 var keyBodyLower = `
             </tr>
         </table>
@@ -201,6 +202,8 @@ const fs = require("fs");
 const util = require("util");
 const timestamp = require('time-stamp');
 const { diffieHellman } = require("crypto");
+const { TextDecoderStream } = require("stream/web");
+const internal = require("stream");
 
 var artiIndexJSON = {};
 var artiIndex = {};
@@ -299,18 +302,17 @@ jsonfile.readFile("artiIndex.json")
         keys = keyIndex["keys"];
         numKeys = keyIndex["numKeys"];
         keyOrder = keyIndex["keyOrder"];
-        keyBody = ``;
         // add left column for key list
-        keyBody += `<td class="keyLeft">`;
-        keyBody += `\n<p><span id="searchArray">searching keys: </span><button id="searchBut">Search</button></p>\n`;
-        keyBody += `<div class="keyListDiv">\n`;
+        keyBodyLeft += `<td class="keyLeft">`;
+        keyBodyLeft += `\n<p><span id="searchArray">searching keys: </span><br><button id="searchBut">Search</button></p>\n`;
+        keyBodyLeft += `<div class="keyListDiv">\n`;
         keyOrder.forEach(element=>{
             var kname = element["kname"];
-            keyBody += `<p><button class="keyLink" id="but_${kname}")>${kname}</button></p>\n`
+            keyBodyLeft += `<p><button class="keyLink" id="but_${kname}")>${kname}</button></p>\n`
         })
-        keyBody += `</div></td>`;
+        keyBodyLeft += `</div></td>`;
         // add right column
-        keyBody += `<td class="keyRight"><div class="keySearchDiv">\n`;
+        keyBodyRight += `<td class="keyRight"><div class="keySearchDiv">\n`;
         // give up on in-page search design
         //keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
         // default show all articles
@@ -318,14 +320,13 @@ jsonfile.readFile("artiIndex.json")
         artiOrder.forEach(element => {
             //dj("element", articles[element["name"]])
             aname = element["aname"]
-            ds("test");
-            keyBody += 
+            keyBodyRight += 
                 "<p><a href=\"/article/" + aname + "\">" 
                 + aname +"</a><br><span>keywords: " 
                 + articles[aname]["keywords"] 
                 + "</span></p>\n";
         });
-        keyBody += `</div></td>`
+        keyBodyRight += `</div></td>`
         dj("key index read");
     })
     .catch(err => {
@@ -393,12 +394,20 @@ app.get("/article/*", (req,res)=>{
 });
 
 app.get("/keywords?*", (req,res)=>{
+    numKey = req.query["numKey"];
+    
+    for (ki = 0; ki < numKeys; ki++) {
+        key = req.query["key" + ki.toString()];
+    }
     res.send(HTMLCreator({
         title: keyTitle,
         lang: mainLang,
         head: mainHead + mainCSS + keyCSS + keyScript,
-        body: mainBodyUpper + keyBodyUpper + keyBody + keyBodyLower + mainBodyLower
+        body: mainBodyUpper + keyBodyUpper + keyBodyLeft + keyBodyRight + keyBodyLower + mainBodyLower
     }))
+    
+
+    
 })
 
 app.get("/", function(req, res) {

@@ -1,3 +1,6 @@
+# file sync
+*.ffs_db
+
 # Logs
 logs
 *.log

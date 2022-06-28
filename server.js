@@ -250,16 +250,7 @@ jsonfile.readFile("artiIndex.json")
         numArticles = artiIndex["numArticles"];
         //dj("articles", articles);
         //dj("orderList", orderList)
-        indexBody = ""
-        artiOrder.forEach(element => {
-            //dj("element", articles[element["name"]])
-            aname = element["aname"]
-            indexBody += 
-                "<p><a href=\"/article/" + aname + "\">" 
-                + aname +"</a><br><span>keywords: " 
-                + articles[aname]["keywords"] 
-                + "</span></p>\n";
-        });
+
         //dt(indexBody);
         dj("arti index read")
     })
@@ -411,6 +402,16 @@ app.get("/keywords?*", (req,res)=>{
 })
 
 app.get("/", function(req, res) {
+    indexBody = ""
+    artiOrder.forEach(element => {
+        //dj("element", articles[element["name"]])
+        aname = element["aname"]
+        indexBody += 
+            "<p><a href=\"/article/" + aname + "\">" 
+            + aname +"</a><br><span>keywords: " 
+            + articles[aname]["keywords"] 
+            + "</span></p>\n";
+    });
     res.send(HTMLCreator({
         title:indexTitle,
         lang: mainLang,

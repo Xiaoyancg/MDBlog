@@ -69,9 +69,9 @@ key search:
         ☐ print search result
         ☐ keep the searching box float and fix on page when scrolling
     ☐ write query function in server
-        ☐ parse query varaibles
-        ☐ decode query variables
-        ☐ retrieve articles
+        ✔ parse query varaibles @done(22-06-27 23:35)
+        ☐ decode query variables @started(22-06-27 23:35)
+        ☐ retrieve articles @started(22-06-27 23:35)
         ☐ send articles in res
 
 

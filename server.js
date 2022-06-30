@@ -388,14 +388,16 @@ app.get("/keywords?*", (req,res)=>{
     // give up on in-page search design
     // ---keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`---
     // default show all articles
-    //artiOrder.forEach(element => {
-    //    aname = element["aname"]
-    //    keyBodyRight += 
-    //        "<p><a href=\"/article/" + aname + "\">" 
-    //        + aname +"</a><br><span>keywords: " 
-    //        + articles[aname]["keywords"] 
-    //        + "</span></p>\n";
-    //});
+    if (numSearchKey == 0) {
+        artiOrder.forEach(element => {
+        aname = element["aname"]
+        keyBodyRight += 
+            "<p><a href=\"/article/" + aname + "\">" 
+            + aname +"</a><br><span>keywords: " 
+            + articles[aname]["keywords"] 
+            + "</span></p>\n";
+        });
+    }
     var searchResult = {}
     var searchedArti = []
     for (ki = 0; ki < numSearchKey; ki++) {

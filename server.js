@@ -363,6 +363,7 @@ app.get("/article/*", (req,res)=>{
 app.get("/keywords?*", (req,res)=>{
 
     // add left column for key list
+    keyBodyLeft = ``;
     keyBodyLeft += `<td class="keyLeft">`;
     keyBodyLeft += `\n<p><span id="searchArray">searching keys: </span><br><button id="searchBut">Search</button></p>\n`;
     keyBodyLeft += `<div class="keyListDiv">\n`;
@@ -372,11 +373,11 @@ app.get("/keywords?*", (req,res)=>{
     })
     keyBodyLeft += `</div></td>`;
     // add right column
+    keyBodyRight = ``;
     keyBodyRight += `<td class="keyRight"><div class="keySearchDiv">\n`;
     // give up on in-page search design
     //keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
     // default show all articles
-    ds(artiOrder)
     artiOrder.forEach(element => {
         //dj("element", articles[element["name"]])
         aname = element["aname"]
@@ -388,12 +389,18 @@ app.get("/keywords?*", (req,res)=>{
     });
     keyBodyRight += `</div></td>`
 
-
-    numKey = req.query["numKey"];
-    
-    for (ki = 0; ki < numKeys; ki++) {
-        key = req.query["key" + ki.toString()];
+    if (req.query["numKey"] != undefined) {
+        numSearchKey = req.query["numKey"];
     }
+    else {
+        numSearchKey = 0
+    }
+    ds("numSearchKey: %d", numSearchKey);
+    searchKey = [];
+    for (ki = 0; ki < numSearchKey; ki++) {
+        searchKey.push(req.query["key" + ki.toString()])
+    }
+    ds(searchKey);
     res.send(HTMLCreator({
         title: keyTitle,
         lang: mainLang,

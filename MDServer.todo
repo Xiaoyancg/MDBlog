@@ -66,14 +66,16 @@ key search:
         ✔ add decode @done(22-06-26 00:20)
         ✔ decode query variables @started(22-06-25 23:41) @done(22-06-26 00:21) @lasted(40m5s)
         ✔ show the current search states @done(22-06-26 00:21)
-        ☐ print search result
+        ✔ print search result @done(22-06-29 23:24)
         ☐ keep the searching box float and fix on page when scrolling
-    ☐ write query function in server
+        ☐ add key search link in each key
+
+    ✔ write query function in server @done(22-06-29 23:24)
         ✔ parse query varaibles @done(22-06-27 23:35)
         ✔ decode query variables @started(22-06-27 23:35) @done(22-06-29 23:18) @lasted(1d23h43m39s)
         ✔ retrieve articles @started(22-06-27 23:35) @done(22-06-29 23:18) @lasted(1d23h43m44s)
         ✔ send articles in res @done(22-06-29 23:18)
-        
+
 
 
 Archive:

@@ -386,7 +386,7 @@ app.get("/keywords?*", (req,res)=>{
     keyBodyRight = ``;
     keyBodyRight += `<td class="keyRight"><div class="keySearchDiv">\n`;
     // give up on in-page search design
-    //keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`
+    // ---keyBody += `<iframe src="/keySearch?" title="keySearch" class="keySearchIframe" name="searchResult">iframe<iframe>`---
     // default show all articles
     //artiOrder.forEach(element => {
     //    aname = element["aname"]
@@ -396,11 +396,33 @@ app.get("/keywords?*", (req,res)=>{
     //        + articles[aname]["keywords"] 
     //        + "</span></p>\n";
     //});
-    
+    var searchResult = {}
+    var searchedArti = []
     for (ki = 0; ki < numSearchKey; ki++) {
-        searchKey.push(req.query["key" + ki.toString()]);
+        tk = req.query["key" + ki.toString()];
+        searchKey.push(tk);
         
+        // loop keys for articles of temp key
+        keys[tk].forEach(element => {
+            if (searchResult[element] == undefined) {
+                searchResult[element] = 1;
+                searchedArti.push(element);
+            }
+            else {
+                searchResult[element] += 1;
+            }
+        });
     }
+    // loop search result to find articles that have all keys
+    searchedArti.forEach(aname => {
+        if (searchResult[aname] == numSearchKey) {
+            keyBodyRight += 
+                "<p><a href=\"/article/" + aname + "\">" 
+                + aname +"</a><br><span>keywords: " 
+                + articles[aname]["keywords"] 
+                + "</span></p>\n";
+        }
+    })
     keyBodyRight += `</div></td>`
     ds(searchKey);
     res.send(HTMLCreator({

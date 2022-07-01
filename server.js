@@ -420,8 +420,13 @@ app.get("/keywords?*", (req,res)=>{
             keyBodyRight += 
                 "<p><a href=\"/article/" + aname + "\">" 
                 + aname +"</a><br><span>keywords: " 
-                + articles[aname]["keywords"] 
-                + "</span></p>\n";
+            
+            articles[aname]["keywords"].forEach(element => {
+                keyBodyRight += 
+                    "<a href=\"/keywords?numKey=1&key0=" 
+                    + element +"\">" + element + "    "+ "</a>";
+            });
+            keyBodyRight += "</span></p>\n";
         }
     })
     keyBodyRight += `</div></td>`

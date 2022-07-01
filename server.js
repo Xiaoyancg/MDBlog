@@ -361,7 +361,6 @@ app.get("/article/*", (req,res)=>{
 });
 
 app.get("/keywords?*", (req,res)=>{
-
     // add left column for key list
     keyBodyLeft = ``;
     keyBodyLeft += `<td class="keyLeft">`;
@@ -445,9 +444,9 @@ app.get("/", function(req, res) {
         aname = element["aname"]
         indexBody += 
             "<p><a href=\"/article/" + aname + "\">" 
-            + aname +"</a><br><span>keywords: " 
+            + aname +"</a><br><span>keywords: " + "<a href=\"/keywords?numKey=1&key0=" + articles[aname]["keywords"] +"\">"
             + articles[aname]["keywords"] 
-            + "</span></p>\n";
+            + "</a></span></p>\n";
     });
     res.send(HTMLCreator({
         title:indexTitle,

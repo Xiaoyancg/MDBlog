@@ -444,9 +444,12 @@ app.get("/", function(req, res) {
         aname = element["aname"]
         indexBody += 
             "<p><a href=\"/article/" + aname + "\">" 
-            + aname +"</a><br><span>keywords: " + "<a href=\"/keywords?numKey=1&key0=" + articles[aname]["keywords"] +"\">"
-            + articles[aname]["keywords"] 
-            + "</a></span></p>\n";
+            + aname +"</a><br><span>keywords: "
+        articles[aname]["keywords"].forEach(element => {
+            indexBody += "<a href=\"/keywords?numKey=1&key0=" 
+                + element +"\">" + element + "    "+ "</a>";
+        });
+        indexBody += "</span></p>\n";
     });
     res.send(HTMLCreator({
         title:indexTitle,

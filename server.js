@@ -4,6 +4,18 @@ var mainHead = `
 
 var mainCSS = `
 <style>
+a:link {
+    color: rgb(218, 0, 55);
+}
+a:visited {
+    color: rgb(218, 0, 55);
+}
+a:hover {
+    color: rgb(218, 0, 55);
+}
+a:active {
+    color: rgb(218, 0, 55);
+}
 body {
     background-color: #10151b;
     color: rgb(237,237,237);
